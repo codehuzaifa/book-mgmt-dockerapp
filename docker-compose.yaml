@@ -1,0 +1,30 @@
+services:
+  web:
+    build: .
+    image: huzcode/python-bookmgmt:latest
+    ports:
+      - "8000:8000"
+    environment:
+      MYSQL_DATABASE_HOST: db
+      MYSQL_DATABASE_USER: lms_user
+      MYSQL_DATABASE_PASSWORD: lms_password
+      MYSQL_DATABASE_DB: lms
+    depends_on:
+      - db
+    container_name: flask_app
+  db:
+    build: ./db
+    image: mysql:latest
+    ports:
+      - "9000:3306"
+    container_name: mysql_db
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: lms_user
+      PMA_PASSWORD: lms_password
+    container_name: phpmyadmin_python
+    
